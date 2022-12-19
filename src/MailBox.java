@@ -1,4 +1,6 @@
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.*;
 
 public class MailBox {
@@ -99,30 +101,74 @@ public class MailBox {
     }
     
     public void deletarEmailsAnteriorAData(LocalDateTime dataLimite) {
+        Integer indice = buscarIndicePorHorario(dataLimite);
 
+        emails = emails.subList(0, indice - 1);
+        numeroDeEmails = emails.size();
     }
 
     public List<Endereco> emailsRecebidosHoje() {
-        return new ArrayList<>();
+        List<Endereco> enderecosDeEmailsRecebidosHoje = new ArrayList<>();
+        LocalDateTime currentDay = LocalDateTime.now().truncatedTo(ChronoUnit.DAYS);
+        Integer indiceDosEmailsDeHoje = buscarIndicePorHorario(currentDay);
+
+        for(Mail mail : emails.subList(0, indiceDosEmailsDeHoje -1 )) {
+            enderecosDeEmailsRecebidosHoje.add(mail.endereco);
+        }
+
+        return enderecosDeEmailsRecebidosHoje;
     }
 
     public void deletarEmailsPorParametroDeUmEndereco(Endereco endereco, String[] filtros) {
+        List<Mail> emailsAux = emails;
+        for (Mail mail : emailsAux) {
+            if (mail.endereco.equals(endereco)){ 
+                for (String palavra : filtros) {
+                    if (mail.assunto.contains(palavra)) {
+                        emails.remove(mail);
+                        break;
+                    }
+                }
+            }
+        }
 
+        numeroDeEmails = emails.size();
     }
 
     public void deletarEmailsAnteriorADataPorEndereco(LocalDateTime dataLimite, Endereco endereco) {
+        Integer indice = buscarIndicePorHorario(dataLimite);
 
+        List<Mail> listaAuxiliar = emails.subList(indice, numeroDeEmails);
+
+        for(Mail email : listaAuxiliar) {
+            if(email.endereco.equals(endereco)) {
+                emails.remove(email);
+            }
+        }
+
+        numeroDeEmails = emails.size();
+        
     }
 
-    public List<Endereco> buscarPorPais(String pais) {
-        return new ArrayList<>();
+    public List<String> buscarRemetentesPorPais(String pais) {
+        List<String> remetentes = new ArrayList<>();
+
+        for (Mail mail: emails){
+            if( mail.endereco.pais == pais) {
+                remetentes.add(mail.remetente);
+            }
+        }
+
+        return remetentes;
     }
 
     public Integer numeroDeEmails() {
         return emails.size();
     }
 
-    public Integer buscarIndicePorHorario(LocalDateTime horario) {
+    // busca binária para acelerar a busca do indice dado que
+    // os horarios estão ordenados de forma decrescente
+    private Integer buscarIndicePorHorario(LocalDateTime horario) {
         if(numeroDeEmails == 0) {
             return 0;
         }

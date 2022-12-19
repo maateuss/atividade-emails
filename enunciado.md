@@ -16,12 +16,12 @@ ok d) Criar uma lista com todos os endereços que enviaram mails contendo no seu
 
 ok e) O mesmo que a questão anterior, mas criando um conjunto contendo os mails;
 
-  f) Eliminar todos os e-mails recebidos antes de uma data que é dada como parâmetro;
+ok  f) Eliminar todos os e-mails recebidos antes de uma data que é dada como parâmetro;
 
-g) Criar uma lista dos endereços que hoje enviaram mails;
+ok g) Criar uma lista dos endereços que hoje enviaram mails;
 
-h) Dada uma lista de palavras, eliminar todos os mails de um dado endereço que no seu assunto contenham uma qualquer destas (anti-spam);
+ok h) Dada uma lista de palavras, eliminar todos os mails de um dado endereço que no seu assunto contenham uma qualquer destas (anti-spam);
 
-i) Eliminar todos os mails de um dado endereço anteriores a uma data dada;
+ok i) Eliminar todos os mails de um dado endereço anteriores a uma data dada;
 
-j) Criar uma listagem com todos os endereços de e-mail oriundos um país dado como parâmetro
+ok j) Criar uma listagem com todos os endereços de e-mail oriundos um país dado como parâmetro
